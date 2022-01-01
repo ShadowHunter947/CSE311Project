@@ -1,65 +1,23 @@
 <!DOCTYPE html>
-
-  <html>
-
+<html>
 <head>
-<meta charset="utf-8">
-<meta charset="Name" content="Motor Service Management">
-<meta charset="Description" content="Fixing cars for the roads">
-<link rel="stylesheet" type="text/css" href="style.css">
-<link rel="icon" type="png/gif" href="image/Login.png" />
-<title>Welcome to Login Page</title>
+	<title>LOGIN</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
-
 <body>
-<div class="title">
-  <h1 id="h1ForUser">Motor Service Management</h1>
-  <h3 id="h3ForUser">Login Panel</h3>
-</div>
-<div class="login_details">
+     <form action="loginAction.php" method="post">
+     	<h2>LOGIN</h2>
+     	<?php if (isset($_GET['error'])) { ?>
+     		<p class="error"><?php echo $_GET['error']; ?></p>
+     	<?php } ?>
+     	<label>User Name</label>
+     	<input type="text" name="uname" placeholder="User Name"><br>
 
-  <form method="post" action="backend_files/login_backend.php">
+     	<label>Password</label>
+     	<input type="password" name="password" placeholder="Password"><br>
 
-  <table>
-    <tr>
-      <th>
-        <label for="username"> Username: </label>
-      </th>
-      <th>
-        <input type="text" name="username_input" placeholder="Enter your Username">
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="password"> Password: </label>
-      </th>
-      <th>
-        <input type="text/number" name="password_input" placeholder="Enter your Password">
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <button type="submit">Login</button>
-         <a href="signup.php" class="ca">Create an account</a>
-          <a href="index.php" class="ca">¯\_(ツ)_/¯Back to home</a>
-      </th>
-    </tr>
-  </table>
-
-</form>
-
-</div>
-
-
-
+     	<button type="submit">Login</button>
+          <a href="signup.php" class="ca">Create an account</a>
+     </form>
 </body>
-
-<footer>
-
-
-
-
-
-</footer>
-
-  </html>
+</html>
