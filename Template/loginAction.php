@@ -1,54 +1,36 @@
 <?php
-session_start();
-//include "db-conn.php";
+	session_start();
 
-if (isset($_POST['uname']) && isset($_POST['password'])) {
+include "db-conn.php";
 
-	function validate($data){
-       $data = trim($data);
-	   $data = stripslashes($data);
-	   $data = htmlspecialchars($data);
-	   return $data;
+
+	$uname = trim($_POST['uname']);
+	$pass = trim($_POST['password']);
+
+	if($uname == "" || $pass == ""){
+		echo "Name or Pass is empty!";
+		exit;
 	}
 
-	$uname = validate($_POST['uname']);
-	$pass = validate($_POST['password']);
+	$uname = mysqli_real_escape_string($conn, $uname);
+	$pass = mysqli_real_escape_string($conn, $pass);
+	$pass = sha1($pass);
 
-	if (empty($uname)) {
-		header("Location: login.php?error=User Name is required");
-	    exit();
-	}else if(empty($pass)){
-        header("Location: login.php?error=Password is required");
-	    exit();
-	}else{
-		// hashing the password
-        $pass = md5($pass);
+	$query = "SELECT UserName, Password from users";
+	$result = mysqli_query($conn, $query);
+	if(!$result){
+		echo "Empty data " . mysqli_error($conn);
+		exit;
+	}
+	$row = mysqli_fetch_assoc($result);
 
-
-		$sql = "SELECT * FROM users WHERE UserName='$uname' AND Password='$pass'";
-
-	$result = mysqli_query($conn, $sql);
-
-		if (mysqli_num_rows($result) === 1) {
-			$row = mysqli_fetch_assoc($result);
-            if ($row['UserName'] === $uname && $row['Password'] === $pass) {
-            	$_SESSION['UserName'] = $row['UserName'];
-            	$_SESSION['FirstName'] = $row['FirstName'];
-            	$_SESSION['UserId'] = $row['UserId'];
-            	header("Location: index.php");
-		        exit();
-            }else{
-				header("Location: login.php?error=Incorect User name or password");
-		        exit();
-			}
-		}
-		else{
-			header("Location: login.php?error=ok");
-	        exit();
-		}
+	if($uname != $row['UserName'] && $pass != $row['Password']){
+		echo "Name or pass is wrong. Check again!";
+		$_SESSION['users'] = false;
+		exit;
 	}
 
-}else{
-	header("Location: login.php");
-	exit();
-}
+	if(isset($conn)) {mysqli_close($conn);}
+	$_SESSION['users'] = true;
+	header("Location: index2.php");
+?>

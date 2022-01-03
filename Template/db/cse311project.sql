@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 25, 2021 at 12:46 PM
+-- Generation Time: Jan 03, 2022 at 10:19 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -51,6 +51,18 @@ CREATE TABLE `emergency_service` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `log`
+--
+
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `Actions` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `membership`
 --
 
@@ -60,6 +72,15 @@ CREATE TABLE `membership` (
   `MembershipDetails` mediumtext DEFAULT NULL,
   `DiscountOnService` decimal(10,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `membership`
+--
+
+INSERT INTO `membership` (`MembershipId`, `MembershipType`, `MembershipDetails`, `DiscountOnService`) VALUES
+(1, 'Bronze', 'Basic Facilities', '5'),
+(2, 'Silver', 'Advanced Facilites', '10'),
+(3, 'Gold', 'Premium Facilities', '15');
 
 -- --------------------------------------------------------
 
@@ -107,6 +128,17 @@ CREATE TABLE `parts` (
   `PartsType` varchar(30) NOT NULL,
   `MotorTypeId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `parts`
+--
+
+INSERT INTO `parts` (`PartsId`, `PartsName`, `Price`, `Description`, `PartsUsedId`, `UserId`, `ProductOrderId`, `PartsType`, `MotorTypeId`) VALUES
+(1, 'Toyota AC', '1500', 'Toyota Standard AC', 5, 1, 1, 'Air Conditioning System', 1),
+(2, 'Standard Antilock Brake', '2100', 'ABS for your safety', 4, 2, 2, 'Antilock Brake System', 2),
+(3, 'Classic Headlights', '900', 'Add lights to your ride', 11, 3, 3, 'Headlights and Headlamps', 3),
+(4, 'Basic Alternators', '1800', 'Make your vehicle smooth again', 3, 4, 4, 'Alternator and starters', 4),
+(5, 'Power Window', '1000', 'Make your windows automated as well', 2, 5, 5, 'Power Window Repair', 5);
 
 -- --------------------------------------------------------
 
@@ -225,6 +257,17 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`UserId`, `FirstName`, `LastName`, `UserName`, `Password`, `User_MembershipID`) VALUES
+(1, 'James', 'Madisson', 'JM07', '1234', 1),
+(2, 'George', 'Williams', 'GW01', '123', 2),
+(3, 'Riasat', 'Islam', 'Riasat123', '121', 3),
+(4, 'Thomas', 'Gulliver', 'Thomas01', '12345', 3),
+(5, 'Hiram', 'Wisoky', 'Cris', 'wow', NULL);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -240,6 +283,12 @@ ALTER TABLE `appointment_service`
 --
 ALTER TABLE `emergency_service`
   ADD PRIMARY KEY (`EmergencyServiceId`);
+
+--
+-- Indexes for table `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `membership`
@@ -353,6 +402,12 @@ ALTER TABLE `emergency_service`
   MODIFY `EmergencyServiceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `log`
+--
+ALTER TABLE `log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `online_service`
 --
 ALTER TABLE `online_service`
@@ -362,7 +417,7 @@ ALTER TABLE `online_service`
 -- AUTO_INCREMENT for table `parts`
 --
 ALTER TABLE `parts`
-  MODIFY `PartsId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `PartsId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `partsused`
@@ -395,6 +450,12 @@ ALTER TABLE `signin`
   MODIFY `SignInId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `UserId` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -403,18 +464,6 @@ ALTER TABLE `signin`
 --
 ALTER TABLE `appointment_service`
   ADD CONSTRAINT `appointment_service_ibfk_1` FOREIGN KEY (`MotorTypeId`) REFERENCES `motor_type` (`MotorTypeId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `signin`
---
-ALTER TABLE `signin`
-  ADD CONSTRAINT `signin_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`User_MembershipID`) REFERENCES `membership` (`MembershipId`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

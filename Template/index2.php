@@ -49,7 +49,8 @@
                             <li class="scroll-to-section"><a href="#our-classes">Services</a></li>
                             <li class="scroll-to-section"><a href="#features">Parts</a></li>
                             <li class="scroll-to-section"><a href="#schedule">Appointments</a></li>
-                            <li class="main-button"><a href="login.php">Sign In</a></li>
+                            <li class="scroll-to-section"><a href="#">Logged in</a></li>
+                            <li class="main-button"><a href="index.php">Log out</a></li>
 
                         </ul>
                         <a class='menu-trigger'>
